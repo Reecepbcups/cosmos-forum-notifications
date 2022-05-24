@@ -3,13 +3,28 @@
 # topic_list
 
 
+COMMON_WEALTH = {
+    # &cutoff_date=2022-05-24T20%3A45%3A45.648Z <- if we save last date, we can cut it off
+    'juno': 'https://commonwealth.im/api/bulkThreads?chain=juno&topic_id=853',
+    'osmosis': 'https://gov.osmosis.zone/api/bulkThreads?chain=osmosis&topic_id=679'
+}
+
+'''
+Future: Common Wealth
+- https://gov.osmosis.zone/discussion/5032-evmos-incentivized-pool-matched-incentives
+
+- https://gov.osmosis.zone/api/bulkThreads?chain=osmosis&topic_id=679
+-  https://gov.osmosis.zone/api/bulkOffchain?chain=osmosis&community=&jwt= # Shows id of 679
+- https://gov.osmosis.zone/api/status
+'''
+
 import requests
 import time
 
 # We dump this to file every run since we update the lastID
 forums = {
-    'cosmos': { # This could be opened up to 
-        'api': 'https://forum.cosmos.network/c/hub-proposals/25.json',
+    'cosmos': { # This could be opened up to allow other forum categories as well? like https://forum.cosmos.network/c/conversation/34.json
+        'api': 'https://forum.cosmos.network/c/hub-proposals/25.json', # https://forum.cosmos.network/c/hub-proposals/25
         'lastID': 6614
     }
 }
