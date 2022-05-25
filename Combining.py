@@ -37,14 +37,14 @@ def getEpochTime(createTime) -> int:
     return int((current - epoch).total_seconds())
 
 def sendAnnouncement(title, desc, url, image, **kwargs):
+    # Have 2 embeds, one with desc shown. Allow user to change it in webapp?
     embed = discord.Embed(
         title=f"{title}", 
         description=desc, # 
         url=url,
         timestamp = datetime.datetime.utcnow(), # 
         color=0xFFFFFF
-    )
-    embed.set_thumbnail(url=image)
+    ).set_thumbnail(url=image)
 
     for k, v in kwargs.items():
         embed.add_field(name=k.replace("_", " "), value=v, inline=False)

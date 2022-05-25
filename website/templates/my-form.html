@@ -1,0 +1,18 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/mainpage.css') }}">
+</head>
+
+<!-- <h2>Login</h2>
+<p>Enter your webhook and login</p> -->
+<!-- <form method="POST">
+    <input name="webhookURL" value="https://discord.com/api/webhooks/###">
+    <input type="submit">
+</form> -->
+
+<!-- https://codepen.io/lucasyem/pen/ZEEYKdj -->
+<div class="form__group field">
+    <form method="POST">
+        <input type="input" class="form__field" placeholder="Name" name="webhookURL" id='name' required />
+        <label for="submit" class="form__label">Paste Your Discord Webhook URL</label>
+    </form>
+</div>
