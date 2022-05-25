@@ -1,12 +1,12 @@
 # https://forum.cosmos.network/c/hub-proposals/25.json
 
 # topic_list
+# https://github.com/hicommonwealth/commonwealth
 
 
 COMMON_WEALTH = {
-    # &cutoff_date=2022-05-24T20%3A45%3A45.648Z <- if we save last date, we can cut it off
-    'juno': 'https://commonwealth.im/api/bulkThreads?chain=juno&topic_id=853',
-    'osmosis': 'https://gov.osmosis.zone/api/bulkThreads?chain=osmosis&topic_id=679'
+    'juno': 'https://commonwealth.im/api/bulkThreads?chain=juno&cutoff_date={ENCODED_UTC_TIME}&topic_id=853',
+    'osmosis': 'https://gov.osmosis.zone/api/bulkThreads?chain=osmosis&cutoff_date={ENCODED_UTC_TIME}&topic_id=679'
 }
 
 '''
