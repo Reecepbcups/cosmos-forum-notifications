@@ -1,4 +1,4 @@
-import pymongo
+from pymongo import MongoClient
 from discord import Webhook, RequestsWebhookAdapter
 import discord
 import datetime
@@ -7,17 +7,29 @@ import time
 import urllib.parse
 
 COMMON_WEALTH = {
-    # 'juno': 'https://commonwealth.im/api/bulkThreads?chain=juno&cutoff_date={ENCODED_UTC_TIME}&topic_id=853',
-    'osmosis': [
+    # 'Juno': 'https://commonwealth.im/api/bulkThreads?chain=juno&cutoff_date={ENCODED_UTC_TIME}&topic_id=853',
+    'Osmosis': [
         'https://gov.osmosis.zone/api/bulkThreads?chain=osmosis&cutoff_date={ENCODED_UTC_TIME}&topic_id=679',
         'https://gov.osmosis.zone/discussion/{ID}',
         'https://info.osmosis.zone/static/media/logo.551f5780.png'
     ]
 }
-EXAMPLE_DOCUMENTS = {
-    "https://discord.com/api/webhooks/978842076856848385/JPSTZf6loNnRw3jgR_JSlI_qd9EDR32QLEg6lXpN8Ca1yPbdqgF0WLsQnRj_3hXyEY3x": ['OSMO', "AKT", "COSMOS"],
-    "https://discord.com/api/webhooks/978842216627843072/vVz6zxYhtSF_gHTNcfhB9nAXzdgQTORvQRZ0wGtQ0R4oL3UB6vZUc_lrfkIS2qUtt33H": ['OSMO'],
-}
+# EXAMPLE_DOCUMENTS = {
+#     "https://discord.com/api/webhooks/978842076856848385/JPSTZf6loNnRw3jgR_JSlI_qd9EDR32QLEg6lXpN8Ca1yPbdqgF0WLsQnRj_3hXyEY3x": ['OSMO', "AKT", "COSMOS"],
+#     "https://discord.com/api/webhooks/978842216627843072/vVz6zxYhtSF_gHTNcfhB9nAXzdgQTORvQRZ0wGtQ0R4oL3UB6vZUc_lrfkIS2qUtt33H": ['OSMO'],
+# }
+
+# same in Website.py
+client = MongoClient('mongodb://root:akashmongodb19pass@782sk60c31ell6dbee3ntqc9lo.ingress.provider-2.prod.ewr1.akash.pub:31543/?authSource=admin')
+db = client['reece']
+coll = db['other']
+
+def get_all_documents_in_collection():
+    return coll.find({})
+
+for doc in get_all_documents_in_collection():
+    print(doc['url'], doc['enabledChains'])
+# exit()
 
 def getISO8601Time(encode=True):
     output = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]+"Z"
@@ -36,7 +48,7 @@ def getEpochTime(createTime) -> int:
     current = datetime.datetime.strptime(createTime, "%Y-%m-%dT%H:%M:%S.%fZ")
     return int((current - epoch).total_seconds())
 
-def sendAnnouncement(title, desc, url, image, **kwargs):
+def sendAnnouncement(chain, title, desc, url, image, **kwargs):
     # Have 2 embeds, one with desc shown. Allow user to change it in webapp?
     embed = discord.Embed(
         title=f"{title}", 
@@ -49,9 +61,15 @@ def sendAnnouncement(title, desc, url, image, **kwargs):
     for k, v in kwargs.items():
         embed.add_field(name=k.replace("_", " "), value=v, inline=False)
 
-    for WEBHOOK_URL in EXAMPLE_DOCUMENTS.keys():
-        webhook = Webhook.from_url(WEBHOOK_URL, adapter=RequestsWebhookAdapter(sleep=False)) # Initializing webhook
-        # log errors for them to see?
+    for doc in get_all_documents_in_collection():
+        _theirWebhook = doc['url']
+        enabled = doc['enabledChains']
+        if chain not in enabled:
+            print(_theirWebhook[0:25], f" does not have notifs on for this chain! ({chain}->{enabled})")
+            continue # they dont have notifs on for this
+
+        webhook = Webhook.from_url(_theirWebhook, adapter=RequestsWebhookAdapter(sleep=False)) # Initializing webhook
+        # error log if 503 error or something for rate limit?
         webhook.send(username="Commonwealth Proposal",embed=embed) # Executing webhook
 
 def unecode_text(msg):
@@ -84,6 +102,7 @@ for chainID, links in COMMON_WEALTH.items():
         # print(_id, createTime, getEpochTime(createTime), title)
 
     sendAnnouncement(
+        chainID,
         f"{chainID.title()} #{_id} CommonWealth {stage.title()}\n\n{title}", 
         f"", 
         url=discussions.format(ID=_id),
