@@ -12,6 +12,7 @@ services:
     image: reecepbcups/commonwealth_notification_website:1.0.2
     env:
       - PORT=80
+      - 'url=https://commonwealthbot.pbcups.org'
       - "MONGODB=mongodb"
       - "DATABASE=commonwealth_proposals"
       - "COLLECTION=t3"
@@ -20,7 +21,9 @@ services:
     expose:
       - port: 80
         to:
-          - global: true 
+          - global: true
+        accept: # accepts from website URL. nslookup provider for IP
+        - "notifications.pbcups.org"
   pybot:
     image: reecepbcups/commonwealth_notification_bot:1.0.2
     env:
