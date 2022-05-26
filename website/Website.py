@@ -2,11 +2,12 @@
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 
 from pymongo import MongoClient
-
-
 import json
 import os
-with open(f"{os.path.dirname(__file__)}/../config.json") as f:
+
+parent_dir = os.path.dirname(__file__)
+
+with open(f"{parent_dir}/../config.json") as f:
     config = json.load(f)
     # print(config)
     
@@ -49,8 +50,15 @@ def my_form_post():
 def main_page():
     # myWebhook = session.get('webhook', None)
     # get users mongodb info here
-    # chain names shuld be lowercase, match combining.py COMMON_WEALTH
-    return render_template('main-page.html',  data=[{'chain': 'juno'}, {'chain': 'osmosis'}])
+    # chain names should be lowercase, match combining.py COMMON_WEALTH
+
+    # get_all_chains_from_file
+    with open(f"{parent_dir}/../chains.json") as f:
+        chains = json.load(f)
+    temp = []
+    for chainId in chains:
+        temp.append({'chain': chainId})
+    return render_template('main-page.html',  data=temp)
 
 @app.route("/test" , methods=['GET', 'POST'])
 def test():

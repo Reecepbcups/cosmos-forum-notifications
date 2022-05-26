@@ -6,27 +6,26 @@ import datetime
 import requests
 import time
 import urllib.parse
-
-COMMON_WEALTH = {
-    'juno': [
-        'https://commonwealth.im/api/bulkThreads?chain=juno&cutoff_date={ENCODED_UTC_TIME}&topic_id=853',
-        'https://commonwealth.im/juno/discussion/{ID}',
-        'https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/juno.png',
-        ],
-    'osmosis': [
-        'https://gov.osmosis.zone/api/bulkThreads?chain=osmosis&cutoff_date={ENCODED_UTC_TIME}&topic_id=679',
-        'https://gov.osmosis.zone/discussion/{ID}',
-        'https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/osmo.png'
-    ]
-}
+import os
 
 last_props_file = "last_props.json"
 
-import json
+with open("chains.json", 'r') as f:
+    COMMON_WEALTH = dict(json.load(f))
+    # print(COMMON_WEALTH)
+
 with open("config.json") as f:
     config = json.load(f)
     # print(config)
 
+if config['DEBUG'] == False:
+    print("Production Environment, waiting 2 seconds")
+    time.sleep(2)
+else:
+    print("In debug mode!")
+    time.sleep(5)
+
+# Load Database
 client = MongoClient(config['MongoDB'])
 db = client[config['Database']]
 coll = db[config['Collection']]
@@ -88,7 +87,6 @@ def sendAnnouncement(chain, title, desc, url, image, debug=False, **kwargs):
 def unecode_text(msg):
     return urllib.parse.unquote(msg)
 
-import os
 
 LAST_PROP_IDS = {}
 if os.path.exists(last_props_file):
@@ -96,7 +94,7 @@ if os.path.exists(last_props_file):
     LAST_PROP_IDS = json.load(f)
     # print(f"Loaded last props id from file: {LAST_PROP_IDS}")
 
-# debugging
+# for debugging
 # LAST_PROP_IDS = {"osmosis": 5030, "juno": 4883}
 
 for chainID, links in COMMON_WEALTH.items():
