@@ -1,0 +1,44 @@
+---
+version: "2.0"
+
+services:
+  redis:
+    image: reecepbcups/commonwealth_notification_website:latest
+    env:
+      - PORT=8080
+      - "MONGODB=mongodb://root:akashmongodb19pass@782sk60c31ell6dbee3ntqc9lo.ingress.provider-2.prod.ewr1.akash.pub:31543/?authSource=admin"
+      - "DATABASE=commonwealth_proposals"
+      - "COLLECTION=t3"
+    expose:
+      - port: 8080
+        to:
+          - global: true      
+
+profiles:
+  compute:
+    redis:
+      resources:
+        cpu:
+          units: 0.5
+        memory:
+          size: 1Gi
+        storage:
+          size: 1Gi
+  placement:
+    akash:
+      attributes:
+        host: akash
+      signedBy:
+        anyOf:
+          - "akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63"
+      pricing:
+        redis: 
+          denom: uakt
+          amount: 100
+
+
+deployment:
+  redis:
+    akash:
+      profile: redis
+      count: 1

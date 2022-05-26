@@ -1,3 +1,9 @@
+# sudo docker build -t reecepbcups/commonwealth_notification_website .
+# sudo docker run -p 8080:8080 reecepbcups/commonwealth_notification_website
+#
+# sudo docker login
+# sudo docker push reecepbcups/commonwealth_notification_website
+
 # start by pulling the python image
 FROM python:3.8-alpine
 

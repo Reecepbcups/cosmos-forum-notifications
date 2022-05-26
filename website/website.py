@@ -5,16 +5,6 @@ from pymongo import MongoClient
 import json
 import os
 
-parent_dir = os.path.dirname(__file__)
-
-with open(f"config.json") as f:
-    config = json.load(f)
-    # print(config)
-    
-client = MongoClient(config['MongoDB'])
-db = client[config['Database']]
-coll = db[config['Collection']]
-
 def update_user(url, enabledChains: list) -> bool:
     # update_user("testDisc", ["Juno", "Osmosis"])
     print("MongoDB Save:", url[0:25], enabledChains)
@@ -64,9 +54,22 @@ def test():
     selectedChains = request.form.getlist('chains')
     update_user(session['webhook'], selectedChains)
     # print("NOT SAVING USER SINCE THIS IS A GOOD DB RN")
+    # ! TODO send webhook to channel?
     return f"{session.get('webhook')} is now registered for: " + str(selectedChains)
 
 # run the app
 if __name__ == "__main__":
+    parent_dir = os.path.dirname(__file__)
+    with open(f"config.json") as f:
+        config = json.load(f)
+        # print(config)
+    
+    mongoURI = str(os.environ.get('MONGODB', config['MongoDB']))
+    database = str(os.environ.get('DATABASE', config['Database']))
+    collection = str(os.environ.get('COLLECTION', config['Collection']))
+    client = MongoClient(mongoURI)
+    db = client[database]
+    coll = db[collection]
+    
     port = int(os.environ.get('PORT', 8080))
     app.run(debug=True, host='0.0.0.0', port=port)
