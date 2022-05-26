@@ -10,7 +10,7 @@
 
 
 # Setup
-cp config_example.json config.json
+cp config_example.json ./website/config.json (May change location in future)
 > edit values as needed
 
 
