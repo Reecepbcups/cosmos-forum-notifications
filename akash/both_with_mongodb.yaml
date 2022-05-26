@@ -22,8 +22,8 @@ services:
       - port: 80
         to:
           - global: true
-        accept: # accepts from website URL. nslookup provider for IP
-        - "notifications.pbcups.org"
+        accept:
+        - "draftbot.pbcups.org"
   pybot:
     image: reecepbcups/commonwealth_notification_bot:1.0.2
     env:
