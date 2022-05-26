@@ -1,11 +1,9 @@
 ---
 version: "2.0"
 
-# Could put Mongo service packaged in this? But then how to run Combining script
-
 services:
-  redis:
-    image: reecepbcups/commonwealth_notification_website:latest
+  website:
+    image: reecepbcups/commonwealth_notification_website:1.0.0
     env:
       - PORT=80
       - "MONGODB=mongodb://USER:PASSWORD@HOST:PORT/?authSource=admin"
@@ -18,7 +16,7 @@ services:
 
 profiles:
   compute:
-    redis:
+    website:
       resources:
         cpu:
           units: 0.5
@@ -34,13 +32,13 @@ profiles:
         anyOf:
           - "akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63"
       pricing:
-        redis: 
+        website: 
           denom: uakt
           amount: 100
 
 
 deployment:
-  redis:
+  website:
     akash:
-      profile: redis
+      profile: website
       count: 1

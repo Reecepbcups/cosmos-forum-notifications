@@ -1,0 +1,45 @@
+---
+version: "2.0"
+
+# Could put Mongo service packaged in this? But then how to run Combining script
+
+services:
+  pybot:
+    image: reecepbcups/commonwealth_notification_bot:1.0.1
+    env:
+      - "DEBUG_MODE=false"
+      - "RUNNABLE_ENABLED=true"
+      - "RUNNABLE_CHECK_EVERY=60"
+    expose:
+      - port: 1234
+        to:
+          - global: true      
+
+profiles:
+  compute:
+    pybot:
+      resources:
+        cpu:
+          units: 0.25
+        memory:
+          size: 0.5Gi
+        storage:
+          size: 1Gi
+  placement:
+    akash:
+      attributes:
+        host: akash
+      signedBy:
+        anyOf:
+          - "akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63"
+      pricing:
+        pybot: 
+          denom: uakt
+          amount: 100
+
+
+deployment:
+  pybot:
+    akash:
+      profile: pybot
+      count: 1
