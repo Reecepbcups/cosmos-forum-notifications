@@ -7,7 +7,7 @@ import os
 
 parent_dir = os.path.dirname(__file__)
 
-with open(f"{parent_dir}/../config.json") as f:
+with open(f"config.json") as f:
     config = json.load(f)
     # print(config)
     
@@ -29,7 +29,6 @@ app = Flask(__name__)
 
 # https://testdriven.io/blog/flask-sessions/
 
-# TODO: Change to env variable in future
 app.secret_key = 'BAD_SECRET_KEY'
 
 @app.route('/')
@@ -53,7 +52,7 @@ def main_page():
     # chain names should be lowercase, match combining.py COMMON_WEALTH
 
     # get_all_chains_from_file
-    with open(f"{parent_dir}/../chains.json") as f:
+    with open(f"chains.json") as f:
         chains = json.load(f)
     temp = []
     for chainId in chains:
@@ -69,4 +68,5 @@ def test():
 
 # run the app
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
+    port = int(os.environ.get('PORT', 8080))
+    app.run(debug=True, host='0.0.0.0', port=port)
