@@ -1,6 +1,8 @@
 
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 
+from utils.webutils import sendConfirmation
+
 from pymongo import MongoClient
 import json
 import os
@@ -53,9 +55,9 @@ def main_page():
 def test():
     selectedChains = request.form.getlist('chains')
     update_user(session['webhook'], selectedChains)
-    # print("NOT SAVING USER SINCE THIS IS A GOOD DB RN")
     # ! TODO send webhook to channel?
-    return f"{session.get('webhook')} is now registered for: " + str(selectedChains)
+    sendConfirmation(session['webhook'], selectedChains)
+    return f"You are now registered for: " + str(selectedChains)
 
 # run the app
 if __name__ == "__main__":
