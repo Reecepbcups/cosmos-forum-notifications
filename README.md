@@ -16,12 +16,25 @@ cp example/config_example.json ../config.json
 python3 -m pip install -r requirements/requirements.txt
 
 ## Docker
-cd src
-sudo docker build -t reecepbcups/commonwealth_notification_website -f website/Dockerfile .
-sudo docker run -p 8080:8080 reecepbcups/commonwealth_notification_website
+---
 
+## Website
+cd src
 sudo docker login
-sudo docker push reecepbcups/commonwealth_notification_website
+
+VERSION="1.0.1"
+sudo docker build -t reecepbcups/commonwealth_notification_website:$VERSION -f website/Dockerfile .
+sudo docker run -p 8080:8080 reecepbcups/commonwealth_notification_website:$VERSION
+sudo docker push reecepbcups/commonwealth_notification_website:$VERSION
+
+## Notifcation Bot
+cd src
+sudo docker login
+
+VERSION="1.0.1"
+sudo docker build -t reecepbcups/commonwealth_notification_bot:$VERSION -f Dockerfile .
+sudo docker run -it reecepbcups/commonwealth_notification_bot:$VERSION
+sudo docker push reecepbcups/commonwealth_notification_bot:$VERSION
 
 ## Running Notify script
 cd src
