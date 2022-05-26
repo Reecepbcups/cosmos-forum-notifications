@@ -10,9 +10,17 @@
 
 
 # Setup
-cp config_example.json ./website/config.json (May change location in future)
+cd src
+cp example/config_example.json ../config.json
 > edit values as needed
 
+## Docker
+cd src
+sudo docker build -t reecepbcups/commonwealth_notification_website -f website/Dockerfile .
+sudo docker run -p 8080:8080 reecepbcups/commonwealth_notification_website
 
-TODO easy way to use the same files within website & the normal code?
-Just have normal code reach into websites?
+sudo docker login
+sudo docker push reecepbcups/commonwealth_notification_website
+
+## Running Notify script
+python3 src/notify.py
