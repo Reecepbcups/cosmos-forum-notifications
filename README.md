@@ -7,3 +7,8 @@
     Webhook, [chain1, chain2]
 
     My server checks for updates, if there is one, loop through all docs & send embed
+
+
+# Setup
+cp config_example.json config.json
+> edit values as needed

@@ -1,0 +1,6 @@
+{
+    "DEBUG": false,
+    "MongoDB": "mongodb://USER:PASSWORD@HOST:PORT/?authSource=admin",
+    "Database": "commonwealth_proposals",
+    "Collection": "t1"
+}
