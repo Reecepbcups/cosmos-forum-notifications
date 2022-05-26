@@ -3,10 +3,16 @@ from flask import Flask, request, render_template, redirect, url_for, session, f
 
 from pymongo import MongoClient
 
-# create new connection w/ mongo uri
-client = MongoClient('mongodb://root:akashmongodb19pass@782sk60c31ell6dbee3ntqc9lo.ingress.provider-2.prod.ewr1.akash.pub:31543/?authSource=admin')
-db = client['reece']
-coll = db['other']
+
+import json
+import os
+with open(f"{os.path.dirname(__file__)}/../config.json") as f:
+    config = json.load(f)
+    # print(config)
+    
+client = MongoClient(config['MongoDB'])
+db = client[config['Database']]
+coll = db[config['Collection']]
 
 def update_user(url, enabledChains: list) -> bool:
     # update_user("testDisc", ["Juno", "Osmosis"])
@@ -43,13 +49,14 @@ def my_form_post():
 def main_page():
     # myWebhook = session.get('webhook', None)
     # get users mongodb info here
-    return render_template('main-page.html',  data=[{'chain': 'Juno'}, {'chain': 'Osmosis'}])
+    # chain names shuld be lowercase, match combining.py COMMON_WEALTH
+    return render_template('main-page.html',  data=[{'chain': 'juno'}, {'chain': 'osmosis'}])
 
 @app.route("/test" , methods=['GET', 'POST'])
 def test():
     selectedChains = request.form.getlist('chains')
-    # update_user(session['webhook'], selectedChains)
-    print("NOT SAVING USER SINCE THIS IS A GOOD DB RN")
+    update_user(session['webhook'], selectedChains)
+    # print("NOT SAVING USER SINCE THIS IS A GOOD DB RN")
     return f"{session.get('webhook')} is now registered for: " + str(selectedChains)
 
 # run the app
