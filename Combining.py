@@ -10,11 +10,11 @@ import os
 
 last_props_file = "last_props.json"
 
-with open("chains.json", 'r') as f:
+with open("./website/chains.json", 'r') as f:
     COMMON_WEALTH = dict(json.load(f))
     # print(COMMON_WEALTH)
 
-with open("config.json") as f:
+with open("./website/config.json") as f:
     config = json.load(f)
     # print(config)
 
