@@ -1,8 +1,6 @@
 ---
 version: "2.0"
 
-# Could put Mongo service packaged in this? But then how to run Combining script
-
 services:
   pybot:
     image: reecepbcups/commonwealth_notification_bot:1.0.1
@@ -11,7 +9,7 @@ services:
       - "RUNNABLE_ENABLED=true"
       - "RUNNABLE_CHECK_EVERY=60"
     expose:
-      - port: 1234
+      - port: 8080 # just a placeholder
         to:
           - global: true      
 

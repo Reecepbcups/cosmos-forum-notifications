@@ -54,7 +54,7 @@ RUNNABLE_CHECK_EVERY=60
 cd src
 sudo docker login
 
-VERSION="1.0.1"
+VERSION="1.0.2"
 sudo docker build -t reecepbcups/commonwealth_notification_website:$VERSION -f website/Dockerfile .
 sudo docker run -p 8080:8080 reecepbcups/commonwealth_notification_website:$VERSION
 sudo docker push reecepbcups/commonwealth_notification_website:$VERSION
@@ -65,7 +65,7 @@ sudo docker push reecepbcups/commonwealth_notification_website:$VERSION
 cd src
 sudo docker login
 
-VERSION="1.0.1"
+VERSION="1.0.2"
 sudo docker build -t reecepbcups/commonwealth_notification_bot:$VERSION -f Dockerfile .
 sudo docker run -it reecepbcups/commonwealth_notification_bot:$VERSION
 sudo docker push reecepbcups/commonwealth_notification_bot:$VERSION
