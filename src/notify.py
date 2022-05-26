@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import schedule
 
 from pymongo import MongoClient
 from pymongo.collection import Collection
@@ -9,9 +10,7 @@ from utils.utils import getISO8601Time, getTopicList, getEpochTime, unecode_text
 from utils.announcement import sendAnnouncement
 
 
-last_props_file = "src/last_props.json"
-
-
+last_props_file = "last_props.json"
 
 def main(debugging: bool = False):
     # Load Database
@@ -108,17 +107,29 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
 
 if __name__ == "__main__":
     
-    with open("src/chains.json", 'r') as f:
+    with open("chains.json", 'r') as f:
         COMMON_WEALTH = dict(json.load(f)); # print(COMMON_WEALTH)
-    with open("src/config.json") as f:
+    with open("config.json") as f:
         config = json.load(f); # print(config)
 
     DEBUG_MODE = bool(os.getenv("DEBUG_MODE", config['DEBUG']))
 
-    print(DEBUG_MODE)
+    RUNNABLE = bool(os.getenv("RUNNABLE_ENABLED", config['RUNNABLE']['ENABLED']))
+    RUNNABLE_MINUTES = int(os.getenv("RUNNABLE_CHECK_EVERY", config['RUNNABLE']['CHECK_EVERY']))
+
+    print(f"DEBUG_MODE={DEBUG_MODE}")
     if DEBUG_MODE == False:
         print("Production Environment, waiting 2 seconds")
         time.sleep(2)
 
-    # runnable
-    main(debugging=DEBUG_MODE)
+    if RUNNABLE:
+        # use schedular
+        print(f"RUNNABLE ENABLED, running every: {RUNNABLE_MINUTES} minutes")
+        main() # Call 1 time first
+        schedule.every(RUNNABLE_MINUTES).minutes.do(main)
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
+    else:
+        print("Single run...")
+        main(debugging=DEBUG_MODE)

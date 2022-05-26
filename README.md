@@ -13,6 +13,7 @@
 cd src
 cp example/config_example.json ../config.json
 > edit values as needed
+python3 -m pip install -r requirements/requirements.txt
 
 ## Docker
 cd src
@@ -23,4 +24,5 @@ sudo docker login
 sudo docker push reecepbcups/commonwealth_notification_website
 
 ## Running Notify script
-python3 src/notify.py
+cd src
+python3 notify.py
