@@ -12,3 +12,7 @@
 # Setup
 cp config_example.json config.json
 > edit values as needed
+
+
+TODO easy way to use the same files within website & the normal code?
+Just have normal code reach into websites?
