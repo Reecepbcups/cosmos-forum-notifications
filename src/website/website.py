@@ -1,4 +1,5 @@
 
+from xml.dom.minidom import Document
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 
 from utils.webutils import sendConfirmation
@@ -21,7 +22,7 @@ app = Flask(__name__)
 
 # https://testdriven.io/blog/flask-sessions/
 
-app.secret_key = 'BAD_SECRET_KEY'
+app.secret_key = 'SOME_SECRET_SADKIONOJDASK'
 
 @app.route('/')
 def my_form():
@@ -59,6 +60,10 @@ def test():
     sendConfirmation(session['webhook'], selectedChains)
     return f"You are now registered for: " + str(selectedChains)
 
+# @app.route("/reecetesting" , methods=['GET'])
+# def DEBUG_getAllCollectionDocuments() -> Document:
+#     return f"My documents: " + str(coll.find())
+
 # run the app
 if __name__ == "__main__":
     parent_dir = os.path.dirname(__file__)
@@ -69,9 +74,14 @@ if __name__ == "__main__":
     mongoURI = str(os.environ.get('MONGODB', config['MongoDB']))
     database = str(os.environ.get('DATABASE', config['Database']))
     collection = str(os.environ.get('COLLECTION', config['Collection']))
+    if mongoURI == "":
+        print("MongoDB URI not found in environment variables or the config!")
     client = MongoClient(mongoURI)
     db = client[database]
     coll = db[collection]
+
+    # confirm client works
+    print("Client DB Names: " + str(client.list_database_names()))
     
     port = int(os.environ.get('PORT', 8080))
     app.run(debug=True, host='0.0.0.0', port=port)
