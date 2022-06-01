@@ -8,6 +8,9 @@
 
     My server checks for updates, if there is one, loop through all collection docs & send embed
 
+# TODO
+- Add support for persistent storage SDLs w/ akash
+
 
 # Setup
 ```bash
@@ -34,8 +37,8 @@ python3 website/website.py
 ```js
 Website:
 
-MONGODB=mongodb://USER:PASS@localhost:27017/?authSource=admin
-DATABASE=commonwealth_bot
+MONGODB=mongodb //docker name OR USER:PASS@localhost:27017/?authSource=admin
+DATABASE=commonwealth_proposals
 COLLECTION=myCollection
 PORT=8080
 
@@ -44,6 +47,9 @@ Notification Bot:
 DEBUG_MODE=true
 RUNNABLE_ENABLED=true
 RUNNABLE_CHECK_EVERY=60
+MONGODB=mongodb // match these with website
+DATABASE=commonwealth_proposals
+COLLECTION=myCollection
 ```
 
 <br>
