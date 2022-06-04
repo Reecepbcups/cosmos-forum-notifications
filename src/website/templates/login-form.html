@@ -3,14 +3,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<!-- <h2>Login</h2>
-<p>Enter your webhook and login</p> -->
-<!-- <form method="POST">
-    <input name="webhookURL" value="https://discord.com/api/webhooks/###">
-    <input type="submit">
-</form> -->
 
-<h2>Cosmos Draft Proposal Notifications</h2>
+<h2>Cosmos Draft Proposal Notifications <a href="https://github.com/Reecepbcups/cosmos-forum-notifications" target="_blank" style="color:white; font-size: 35px;"><i class="fa fa-github"></i></a></h2>
+
+
 <br>
 
 <body>
@@ -20,22 +16,24 @@
 
 
     <!-- https://codepen.io/lucasyem/pen/ZEEYKdj -->
-    <div class="form__group field">    
+    <div class="form__group field">
         <form method="POST">
-            <input type="input" class="form__field" placeholder="Name" name="webhookURL" id='name' required autofocus/>
+            <input type="input" class="form__field" placeholder="Name" name="webhookURL" id='name' required autofocus />
             <label for="submit" class="form__label">Paste Your Discord Webhook URL</label>
         </form>
     </div>
 
 
-
     <div id="footer">
-        <a href="https://github.com/Reecepbcups/cosmos-forum-notifications" target="_blank" style="color:white; font-size: 20px;">
-            <i class="fa fa-github"> reecepbcups/cosmos-forum-notifications</i>
-        </a>
+        <center>
+            <a href="https://akash.network/">
+                <img src="{{url_for('static', filename='powered_by_akash.png')}}" alt="Powered by the Akash Network"
+                    style="width: 10%;">
+            </a>
+        </center>
+
+
     </div>
 
 
 </body>
-
-
