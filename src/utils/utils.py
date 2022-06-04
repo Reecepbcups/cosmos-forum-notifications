@@ -21,8 +21,12 @@ def getCosmosUserMap(url) -> dict:
     tempUsers = getTopicList(url, key="users") # reuse this requests code
     users = {}
     for u in tempUsers:
-        # could also save trust_level - https://forum.cosmos.network/c/hub-proposals/25.json
-        users[u['id']] = [u['username'], u['name']]
+        # could also save trust_level - https://forum.cosmos.network/c/hub-proposals/25.json, same for akash
+        try:
+            users[u['id']] = [u['username'], u['name']]
+        except:
+            users[u['id']] = [u['username'], u['trust_level']]
+
     # print("getCosmosUserMap", users)
     return users
 

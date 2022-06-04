@@ -66,12 +66,12 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
 
     for chainID, (api, discussions, img) in COMMON_WEALTH.items():
 
-        # if chainID != "akash":
-        #     continue # DEBUGGING
+        if chainID != "akash":
+            continue # DEBUGGING
 
         userIDToName = {}
         api = str(api)
-        if chainID == "cosmos":
+        if chainID == "cosmos" or chainID == "akash":
             # ['id', 'title', 'fancy_title', 'slug', 'posts_count', 'reply_count', 'highest_post_number', 'image_url', 
             # 'created_at', 'last_posted_at', 'bumped', 'bumped_at', 'archetype', 'unseen', 'pinned', 'unpinned', \
             # 'excerpt', 'visible', 'closed', 'archived', 'bookmarked', 'liked', 'tags', 'tags_descriptions', 'views', 
@@ -79,13 +79,6 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
             # 'has_accepted_answer', 'posters'])
             userIDToName = getCosmosUserMap(api)
             threads = getTopicList(api, key="topic_list")['topics']
-
-        elif chainID == "akash":
-            # ['id', 'title', 'fancy_title', 'slug', 'posts_count', 'reply_count', 'highest_post_number', 'image_url', 
-            # 'created_at', 'last_posted_at', 'bumped', 'bumped_at', 'archetype', 'unseen', 'pinned', 'unpinned', 'visible', 
-            # 'closed', 'archived', 'bookmarked', 'liked', 'tags', 'tags_descriptions', 'like_count', 'views', 'category_id', 
-            # 'featured_link', 'has_accepted_answer', 'can_have_answer', 'posters']
-            threads = getTopicList(api, key="suggested_topics")
             
         else:
             api = str(api).format(ENCODED_UTC_TIME=getISO8601Time())
@@ -134,13 +127,14 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
                             name = userIDToName[userID][1]
                             originalPoster = f"{name} ( https://forum.cosmos.network/u/{username} )"
 
-                elif chainID == "akash":
+                elif chainID == "akash": # merge these together with cosmos in the future
                     for poster in prop['posters']:
                         desc = str(poster['description'])
                         if 'original' in desc.lower():
-                            username = poster['user']['username']
-                            userID = poster['user']['id']
-                            originalPoster = f"{username} https://forum.akash.network/u/{username} (ID: {userID})"
+                            userID = poster['user_id']
+                            username = userIDToName[userID][0]
+                            # trustLevel = userIDToName[userID][1] # future?
+                            originalPoster = f"{username} https://forum.akash.network/u/{username}"
 
             # Update this prop to newest
             LAST_PROP_IDS[chainID] = _id
