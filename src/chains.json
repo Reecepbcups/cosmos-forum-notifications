@@ -24,6 +24,11 @@
         "https://commonwealth.im/umee/discussion/{ID}",
         "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/umee.png"
     ],
+    "regen": [
+        "https://commonwealth.im/api/bulkThreads?chain=regen&cutoff_date={ENCODED_UTC_TIME}",
+        "https://commonwealth.im/regen/discussion/{ID}",
+        "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/regen.png"
+    ],
     "chihuahua": [
         "https://commonwealth.im/api/bulkThreads?chain=chihuahua&cutoff_date={ENCODED_UTC_TIME}&topic_id=1128",
         "https://commonwealth.im/chihuahua/discussion/{ID}",
