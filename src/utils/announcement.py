@@ -21,7 +21,8 @@ def sendAnnouncement(chain, title, desc, url, image, collectionDocs, debug=False
     ).set_thumbnail(url=image)
 
     for k, v in kwargs.items():
-        embed.add_field(name=k.replace("_", " "), value=v, inline=False)
+        if len(v) > 0:
+            embed.add_field(name=k.replace("_", " "), value=v, inline=False)
 
     # for idx, doc in enumerate(collectionDocs):
     #     print(idx, doc)
@@ -35,9 +36,9 @@ def sendAnnouncement(chain, title, desc, url, image, collectionDocs, debug=False
             continue
 
         if debug == False:
-            webhook = Webhook.from_url(_theirWebhook, adapter=RequestsWebhookAdapter(sleep=False)) # Initializing webhook
-            # error log if 503 error or something for rate limit?
-            webhook.send(username="Commonwealth Proposal",embed=embed) # Executing webhook
+            webhook = Webhook.from_url(_theirWebhook, adapter=RequestsWebhookAdapter(sleep=False))
+            # Check return here, if there is no webhook, remove from DB
+            webhook.send(username="Commonwealth Proposal",embed=embed)
             time.sleep(1.21) # 50 per minutes = 1.2sec per post
         else:
             # print(f"debug={debug} so not posting to discord\n")
