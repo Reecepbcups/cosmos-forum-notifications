@@ -66,8 +66,8 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
 
     for chainID, (api, discussions, img) in COMMON_WEALTH.items():
 
-        if chainID != "akash":
-            continue # DEBUGGING
+        # if chainID != "akash":
+        #     continue # DEBUGGING
 
         userIDToName = {}
         api = str(api)
