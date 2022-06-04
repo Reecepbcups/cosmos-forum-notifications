@@ -3,7 +3,7 @@ version: "2.0"
 
 services:
   website:
-    image: reecepbcups/commonwealth_notification_website:1.0.0
+    image: reecepbcups/commonwealth_notification_website:1.0.5
     env:
       - PORT=80
       - "MONGODB=mongodb://USER:PASSWORD@HOST:PORT/?authSource=admin"

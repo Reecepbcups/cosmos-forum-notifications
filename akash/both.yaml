@@ -3,7 +3,7 @@ version: "2.0"
 
 services:
   website:
-    image: reecepbcups/commonwealth_notification_website:1.0.0
+    image: reecepbcups/commonwealth_notification_website:1.0.5
     env:
       - PORT=80
       - "MONGODB=mongodb://USER:PASSWORD@HOST:PORT/?authSource=admin"
@@ -14,11 +14,14 @@ services:
         to:
           - global: true 
   pybot:
-    image: reecepbcups/commonwealth_notification_bot:1.0.1
+    image: reecepbcups/commonwealth_notification_bot:1.0.5
     env:
       - "DEBUG_MODE=false"
       - "RUNNABLE_ENABLED=true"
       - "RUNNABLE_CHECK_EVERY=60"
+      - "MONGODB=mongodb://USER:PASSWORD@HOST:PORT/?authSource=admin"
+      - "DATABASE=commonwealth_proposals"
+      - "COLLECTION=t3"
     expose:
       - port: 1234 # just a placeholder
         to:
