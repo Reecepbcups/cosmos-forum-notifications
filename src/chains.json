@@ -14,6 +14,11 @@
         "https://gov.osmosis.zone/discussion/{ID}",
         "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/osmo.png"
     ],
+    "akash": [
+        "https://forum.akash.network/t/about-the-governance-category/17.json",
+        "https://forum.akash.network/t/{ID}",
+        "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/akt.png"
+    ],
     "dig-chain": [
         "https://commonwealth.im/api/bulkThreads?chain=dig-chain&cutoff_date={ENCODED_UTC_TIME}",
         "https://commonwealth.im/dig-chain/discussion/{ID}",

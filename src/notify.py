@@ -66,20 +66,27 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
 
     for chainID, (api, discussions, img) in COMMON_WEALTH.items():
 
-        # if chainID != "regen":
+        # if chainID != "akash":
         #     continue # DEBUGGING
 
         userIDToName = {}
+        api = str(api)
         if chainID == "cosmos":
-            api = str(api)
             # ['id', 'title', 'fancy_title', 'slug', 'posts_count', 'reply_count', 'highest_post_number', 'image_url', 
             # 'created_at', 'last_posted_at', 'bumped', 'bumped_at', 'archetype', 'unseen', 'pinned', 'unpinned', \
             # 'excerpt', 'visible', 'closed', 'archived', 'bookmarked', 'liked', 'tags', 'tags_descriptions', 'views', 
             # 'like_count', 'has_summary', 'last_poster_username', 'category_id', 'pinned_globally', 'featured_link', 
             # 'has_accepted_answer', 'posters'])
             userIDToName = getCosmosUserMap(api)
-
             threads = getTopicList(api, key="topic_list")['topics']
+
+        elif chainID == "akash":
+            # ['id', 'title', 'fancy_title', 'slug', 'posts_count', 'reply_count', 'highest_post_number', 'image_url', 
+            # 'created_at', 'last_posted_at', 'bumped', 'bumped_at', 'archetype', 'unseen', 'pinned', 'unpinned', 'visible', 
+            # 'closed', 'archived', 'bookmarked', 'liked', 'tags', 'tags_descriptions', 'like_count', 'views', 'category_id', 
+            # 'featured_link', 'has_accepted_answer', 'can_have_answer', 'posters']
+            threads = getTopicList(api, key="suggested_topics")
+            
         else:
             api = str(api).format(ENCODED_UTC_TIME=getISO8601Time())
             threads = getTopicList(api, key="result")['threads']
@@ -106,8 +113,10 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
             body = ""
             stage = ""
             address = ""
-
             originalPoster = ""
+            
+            # Should probably turn this into a dict 'switch' statement
+            # which returns the JSON values. Then just pass through the the sendAnnouncement as kwargs
             if 'body' in prop: # cosmos forum doesn't have body, so this if for all other chains
                 body = unecode_text(prop['body']) 
                 if len(body) > 2048:
@@ -115,7 +124,7 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
                     stage = str(prop['stage'])
                     address = prop['Address']['address']
             else:
-                # Would be cosmos specific information
+                # Standalone forums
                 if chainID == "cosmos":
                     for poster in prop['posters']:
                         desc = str(poster['description'])
@@ -124,6 +133,14 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
                             username = userIDToName[userID][0]
                             name = userIDToName[userID][1]
                             originalPoster = f"{name} ( https://forum.cosmos.network/u/{username} )"
+
+                elif chainID == "akash":
+                    for poster in prop['posters']:
+                        desc = str(poster['description'])
+                        if 'original' in desc.lower():
+                            username = poster['user']['username']
+                            userID = poster['user']['id']
+                            originalPoster = f"{username} https://forum.akash.network/u/{username} (ID: {userID})"
 
             # Update this prop to newest
             LAST_PROP_IDS[chainID] = _id
