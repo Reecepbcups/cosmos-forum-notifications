@@ -47,18 +47,20 @@ def main_page():
     # get_all_chains_from_file
     with open(f"chains.json") as f:
         chains = json.load(f)
-    temp = []
+    mychains = []
     for chainId in chains:
-        temp.append({'chain': chainId})
-    return render_template('main-page.html',  data=temp)
+        mychains.append({'chain': chainId})
+    return render_template('main-page.html',  data=mychains)
 
-@app.route("/test" , methods=['GET', 'POST'])
-def test():
+@app.route("/success" , methods=['GET', 'POST'])
+def success():
     selectedChains = request.form.getlist('chains')
-    update_user(session['webhook'], selectedChains)
-    # ! TODO send webhook to channel?
+    update_user(session['webhook'], selectedChains)    
     sendConfirmation(session['webhook'], selectedChains)
-    return f"You are now registered for: " + str(selectedChains)
+
+    formatedChains = ', '.join(selectedChains)
+    # return f"You are now registered for: " + str(selectedChains)
+    return render_template('success.html',  data=formatedChains)
 
 # @app.route("/reecetesting" , methods=['GET'])
 # def DEBUG_getAllCollectionDocuments() -> Document:
