@@ -60,7 +60,7 @@ COLLECTION=myCollection
 cd src
 sudo docker login
 
-VERSION="1.0.9"
+VERSION="1.0.10"
 sudo docker build -t reecepbcups/commonwealth_notification_website:$VERSION -f website/Dockerfile .
 # sudo docker run -p 8080:8080 reecepbcups/commonwealth_notification_website:$VERSION
 sudo docker push reecepbcups/commonwealth_notification_website:$VERSION
