@@ -1,4 +1,9 @@
 {
+    "cosmos": [
+        "https://forum.cosmos.network/c/hub-proposals/25.json",
+        "https://forum.cosmos.network/t/{ID}",
+        "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/atom.png"
+    ],
     "juno": [
         "https://commonwealth.im/api/bulkThreads?chain=juno&cutoff_date={ENCODED_UTC_TIME}&topic_id=853",
         "https://commonwealth.im/juno/discussion/{ID}",
