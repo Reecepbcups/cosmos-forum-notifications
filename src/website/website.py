@@ -10,7 +10,7 @@ import os
 
 def update_user(url, enabledChains: list) -> bool:
     # update_user("testDisc", ["Juno", "Osmosis"])
-    print("MongoDB Save:", url[0:25], enabledChains)
+    print("MongoDB Save:", url[0:45], enabledChains)
     q = coll.find_one({"url": url})
     if q is None:
         x = coll.insert_one({"url": url,"enabledChains": enabledChains}).inserted_id
