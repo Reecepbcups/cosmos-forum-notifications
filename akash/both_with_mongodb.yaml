@@ -9,7 +9,7 @@ services:
         to:
           - service: website     
   website:
-    image: reecepbcups/commonwealth_notification_website:1.0.6
+    image: reecepbcups/commonwealth_notification_website:1.0.7
     env:
       - "PORT=80"
       - "MONGODB=mongodb"
@@ -24,7 +24,7 @@ services:
         accept:
         - "draftbot.pbcups.org"
   pybot:
-    image: reecepbcups/commonwealth_notification_bot:1.0.6 # proposal #'s dont persist, so if updating image ensure you build with newest latest_props.json
+    image: reecepbcups/commonwealth_notification_bot:1.0.7 # proposal #'s dont persist, so if updating image ensure you build with newest latest_props.json
     env:
       - "DEBUG_MODE=false"
       - "RUNNABLE_ENABLED=true"
