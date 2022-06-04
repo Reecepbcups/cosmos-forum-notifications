@@ -12,11 +12,15 @@ from utils.announcement import sendAnnouncement
 
 last_props_file = "last_props.json"
 
+
 def main(debugging: bool = False):
-    # Load Database
-    client = MongoClient(config['MongoDB'])
-    db = client[config['Database']]
-    coll = db[config['Collection']]
+    # Load Database - Make same as Website.py
+    mongoURI = str(os.environ.get('MONGODB', config['MongoDB']))
+    database = str(os.environ.get('DATABASE', config['Database']))
+    collection = str(os.environ.get('COLLECTION', config['Collection']))    
+    client = MongoClient(mongoURI)
+    db = client[database]
+    coll = db[collection]    
 
     '''Loads past saved proposals {chain: id}'''
     LATEST_PROP_IDS = getLastSavedProposalIDs()
@@ -105,17 +109,28 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
     return LAST_PROP_IDS # Returns the chain ids so we can save
 
 
+
+
 if __name__ == "__main__":
     
     with open("chains.json", 'r') as f:
         COMMON_WEALTH = dict(json.load(f)); # print(COMMON_WEALTH)
-    with open("config.json") as f:
-        config = json.load(f); # print(config)
+    
+    # try catch
+    try:
+        with open("config.json") as f:
+            config = json.load(f); # print(config)        
+    except:
+        config = {}
+        print(os.path.abspath(__file__))
+        print("You did not 'cp src/example/config_example.json src/config.json'")
 
     DEBUG_MODE = bool(os.getenv("DEBUG_MODE", config['DEBUG']))
 
     RUNNABLE = bool(os.getenv("RUNNABLE_ENABLED", config['RUNNABLE']['ENABLED']))
     RUNNABLE_MINUTES = int(os.getenv("RUNNABLE_CHECK_EVERY", config['RUNNABLE']['CHECK_EVERY']))
+
+    
 
     print(f"DEBUG_MODE={DEBUG_MODE}")
     if DEBUG_MODE == False:

@@ -9,13 +9,12 @@ services:
         to:
           - service: website     
   website:
-    image: reecepbcups/commonwealth_notification_website:1.0.2
+    image: reecepbcups/commonwealth_notification_website:1.0.5
     env:
-      - PORT=80
-      - 'url=https://commonwealthbot.pbcups.org'
+      - "PORT=80"
       - "MONGODB=mongodb"
       - "DATABASE=commonwealth_proposals"
-      - "COLLECTION=t3"
+      - "COLLECTION=t5"
     depends_on:
       - mongodb
     expose:
@@ -25,11 +24,16 @@ services:
         accept:
         - "draftbot.pbcups.org"
   pybot:
-    image: reecepbcups/commonwealth_notification_bot:1.0.2
+    image: reecepbcups/commonwealth_notification_bot:1.0.5 # proposal #'s dont persist, so if updating image ensure you build with newest latest_props.json
     env:
       - "DEBUG_MODE=false"
       - "RUNNABLE_ENABLED=true"
       - "RUNNABLE_CHECK_EVERY=60"
+      - "MONGODB=mongodb"
+      - "DATABASE=commonwealth_proposals"
+      - "COLLECTION=t5"    
+    depends_on:
+      - mongodb  
     expose:
       - port: 1234 # just a placeholder
         to:
@@ -42,7 +46,7 @@ profiles:
         cpu:
           units: 0.1
         memory:
-          size: 100Mi
+          size: 150Mi
         storage:
           size: 250Mi
     pybot:
@@ -50,9 +54,9 @@ profiles:
         cpu:
           units: 0.1
         memory:
-          size: 100Mi
+          size: 150Mi
         storage:
-          size: 300Mi
+          size: 100Mi
     mongodb:
       resources:
         cpu:
@@ -60,7 +64,7 @@ profiles:
         memory:
           size: 250Mi
         storage:
-          size: 500Mi
+          size: 1G
   placement:
     akash:
       attributes:
@@ -74,10 +78,10 @@ profiles:
           amount: 75
         pybot: 
           denom: uakt
-          amount: 100
+          amount: 75
         mongodb: 
           denom: uakt
-          amount: 100
+          amount: 75
 
 
 deployment:

@@ -1,5 +1,9 @@
 {
     "DEBUG": false,
+    "RUNNABLE": {
+        "ENABLED": true,
+        "CHECK_EVERY": 60
+    },
     "MongoDB": "mongodb://USER:PASSWORD@HOST:PORT/?authSource=admin",
     "Database": "commonwealth_proposals",
     "Collection": "t1"
