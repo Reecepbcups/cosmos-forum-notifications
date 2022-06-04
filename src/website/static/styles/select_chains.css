@@ -47,7 +47,7 @@
 }
 .fancy_button_to_home:hover {
   background-color: #e52e76; /*This is the compliment color of the green fancy_button*/
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  box-shadow: 0px 15px 20px rgba(229, 46, 118, 0.4);
   color: #fff;  
   transform: translateY(7px);
 }
@@ -55,7 +55,7 @@
 /* Code for selection boxes */
 label {
   display:block;
-  border:solid 1px black;
+  border:solid 1px #8B949E;
   line-height:40px;
   height:40px;
   width: 250px;
@@ -63,7 +63,7 @@ label {
   -webkit-font-smoothing: antialiased; 
   margin-top:10px;
   font-family:Arial,Helvetica,sans-serif;
-  color:black;
+  color:#C9D1D9;
   text-align:center;
 }
 
@@ -94,4 +94,24 @@ input:checked + label .check {
 
 input.checkbox:checked + label:before {
   content: "";
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+  background-color: #222222;
+}
+
+h1 {
+  color: #C9D1D9;
+}
+
+/* Remove Scrolling */
+html, body{
+  overflow:hidden;
 }
