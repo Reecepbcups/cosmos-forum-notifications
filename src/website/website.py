@@ -33,6 +33,7 @@ def my_form():
 def my_form_post():
     url = request.form['webhookURL']
     if not url.startswith("https://discord.com/api/webhooks/"):
+        flash("Invalid Discord webhook URL")
         return redirect(url_for('my_form'))
 
     session['webhook'] = url
