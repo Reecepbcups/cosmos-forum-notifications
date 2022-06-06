@@ -1,9 +1,13 @@
----
 version: "2.0"
 
+# no bids for this yet
 services:
   mongodb:
     image: mongo:5.0.8
+    params:
+      storage:
+        data:
+          mount: /data/db
     expose:
       - port: 27017        
         to:
@@ -14,7 +18,7 @@ services:
       - "PORT=80"
       - "MONGODB=mongodb"
       - "DATABASE=commonwealth_proposals"
-      - "COLLECTION=t5"
+      - "COLLECTION=discordwebhooks"
     depends_on:
       - mongodb
     expose:
@@ -31,7 +35,7 @@ services:
       - "RUNNABLE_CHECK_EVERY=60"
       - "MONGODB=mongodb"
       - "DATABASE=commonwealth_proposals"
-      - "COLLECTION=t5"    
+      - "COLLECTION=discordwebhooks"    
     depends_on:
       - mongodb  
     expose:
@@ -46,7 +50,7 @@ profiles:
         cpu:
           units: 0.1
         memory:
-          size: 150Mi
+          size: 250Mi
         storage:
           size: 250Mi
     pybot:
@@ -54,9 +58,9 @@ profiles:
         cpu:
           units: 0.1
         memory:
-          size: 150Mi
+          size: 250Mi
         storage:
-          size: 100Mi
+          size: 500Mi
     mongodb:
       resources:
         cpu:
@@ -64,19 +68,24 @@ profiles:
         memory:
           size: 250Mi
         storage:
-          size: 1G
+          - size: 512Mi
+          - name: data
+            size: 2Gi
+            attributes:
+              persistent: true
+              class: default
   placement:
     akash:
       pricing:
         website: 
           denom: uakt
-          amount: 75
+          amount: 200
         pybot: 
           denom: uakt
-          amount: 75
+          amount: 200
         mongodb: 
           denom: uakt
-          amount: 75
+          amount: 7500
 
 
 deployment:
