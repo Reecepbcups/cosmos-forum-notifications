@@ -149,6 +149,7 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
                 url=discussions.format(ID=_id),
                 image=img,
                 collectionDocs=collection.find({}),
+                myCollection=collection,
                 debug=config["DEBUG"],
                 Stage=stage,
                 Proposer=originalPoster,

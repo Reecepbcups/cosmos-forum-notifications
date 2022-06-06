@@ -71,7 +71,7 @@ sudo docker push reecepbcups/commonwealth_notification_website:$VERSION
 cd src
 sudo docker login
 
-VERSION="1.0.9"
+VERSION="1.0.10"
 sudo docker build -t reecepbcups/commonwealth_notification_bot:$VERSION -f Dockerfile .
 # sudo docker run -it reecepbcups/commonwealth_notification_bot:$VERSION
 sudo docker push reecepbcups/commonwealth_notification_bot:$VERSION
