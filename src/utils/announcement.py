@@ -8,7 +8,7 @@ import os
 
 from pymongo import MongoClient
 
-def sendAnnouncement(chain, title, desc, url, image, collectionDocs, myCollection, debug=False, **kwargs):
+def sendAnnouncement(chain, title, desc, url, image, isTwitterEnabled, twitterAPI, collectionDocs, myCollection, debug=False, **kwargs):
     # Have 2 embeds, one with desc shown. Allow user to change it in webapp?
     # if debug, it does NOT send the webhooks. Just prints embed values
     embed = discord.Embed(
@@ -20,14 +20,18 @@ def sendAnnouncement(chain, title, desc, url, image, collectionDocs, myCollectio
         color=0xFFFFFF
     ).set_thumbnail(url=image)
 
+    message = f"{title} - {url}"
+    if debug: print("Twitter Message: ", message)
+
     coll = myCollection
 
     for k, v in kwargs.items():
         if len(v) > 0:
             embed.add_field(name=k.replace("_", " "), value=v, inline=False)
 
-    # for idx, doc in enumerate(collectionDocs):
-    #     print(idx, doc)
+    if isTwitterEnabled:
+        tweet = twitterAPI.update_status(message)
+        print(f"Tweet sent for {tweet.id}: {message}")
 
     for doc in collectionDocs:
         _theirWebhook = doc['url']

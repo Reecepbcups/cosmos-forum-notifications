@@ -2,6 +2,7 @@ import os
 import json
 import time
 import schedule
+import tweepy
 
 from pymongo import MongoClient
 from pymongo.collection import Collection
@@ -139,7 +140,7 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
             # Update this prop to newest
             LAST_PROP_IDS[chainID] = _id
             print(_id, createTime, getEpochTime(createTime), title)
-            # print("breaking!"); break
+            # print("breaking!"); break            
 
             # Sends kwargs which are not blank
             sendAnnouncement( # chain, title, desc
@@ -148,6 +149,8 @@ def run(LAST_PROP_IDS: dict, collection: Collection, ignorePinned=True) -> dict:
                 desc=body,  # This will be optional in the future
                 url=discussions.format(ID=_id),
                 image=img,
+                isTwitterEnabled=TWITTER_ENABLED,
+                twitterAPI=twitterApi,
                 collectionDocs=collection.find({}),
                 myCollection=collection,
                 debug=config["DEBUG"],
@@ -169,6 +172,7 @@ if __name__ == "__main__":
         COMMON_WEALTH = dict(json.load(f)); # print(COMMON_WEALTH)
     
     # try catch
+    config = {}
     try:
         with open("config.json") as f:
             config = json.load(f); # print(config)        
@@ -182,6 +186,18 @@ if __name__ == "__main__":
     RUNNABLE = bool(os.getenv("RUNNABLE_ENABLED", config['RUNNABLE']['ENABLED']))
     RUNNABLE_MINUTES = int(os.getenv("RUNNABLE_CHECK_EVERY", config['RUNNABLE']['CHECK_EVERY']))
 
+    TWITTER_ENABLED = False
+    twitSecrets = config['TWITTER']
+    if twitSecrets["ENABLED"]:
+        TWITTER_ENABLED = True
+        APIKEY = str(os.environ.get('APIKEY', twitSecrets['APIKEY']))
+        APIKEYSECRET = str(os.environ.get('APIKEYSECRET', twitSecrets['APIKEYSECRET']))
+        ACCESS_TOKEN = str(os.environ.get('ACCESS_TOKEN', twitSecrets['ACCESS_TOKEN']))
+        ACCESS_TOKEN_SECRET = str(os.environ.get('ACCESS_TOKEN_SECRET', twitSecrets['ACCESS_TOKEN_SECRET']))
+        # Authenticate to Twitter & Get API
+        auth = tweepy.OAuth1UserHandler(APIKEY, APIKEYSECRET)
+        auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+        twitterApi = tweepy.API(auth, wait_on_rate_limit=True)
     
 
     print(f"DEBUG_MODE={DEBUG_MODE}")
