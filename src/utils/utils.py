@@ -14,6 +14,22 @@ def getTopicList(url, key="topic_list") -> dict:
         data = data[key]
     return data
 
+def getCosmosUserMap(url) -> dict:
+    '''
+    Get a dict of userID to userName for cosmos hub proposals.
+    '''
+    tempUsers = getTopicList(url, key="users") # reuse this requests code
+    users = {}
+    for u in tempUsers:
+        # could also save trust_level - https://forum.cosmos.network/c/hub-proposals/25.json, same for akash
+        try:
+            users[u['id']] = [u['username'], u['name']]
+        except:
+            users[u['id']] = [u['username'], u['trust_level']]
+
+    # print("getCosmosUserMap", users)
+    return users
+
 epoch = datetime.datetime(1970, 1, 1)
 def getEpochTime(createTime) -> int:
     current = datetime.datetime.strptime(createTime, "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -21,3 +37,8 @@ def getEpochTime(createTime) -> int:
 
 def unecode_text(msg):
     return urllib.parse.unquote(msg)
+
+
+if __name__ == "__main__":
+    # getCosmosUserMap("https://forum.cosmos.network/c/hub-proposals/25.json")
+    pass

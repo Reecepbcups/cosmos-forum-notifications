@@ -10,7 +10,7 @@ import os
 
 def update_user(url, enabledChains: list) -> bool:
     # update_user("testDisc", ["Juno", "Osmosis"])
-    print("MongoDB Save:", url[0:25], enabledChains)
+    print("MongoDB Save:", url[0:45], enabledChains)
     q = coll.find_one({"url": url})
     if q is None:
         x = coll.insert_one({"url": url,"enabledChains": enabledChains}).inserted_id
@@ -33,6 +33,7 @@ def my_form():
 def my_form_post():
     url = request.form['webhookURL']
     if not url.startswith("https://discord.com/api/webhooks/"):
+        flash("Invalid Discord webhook URL")
         return redirect(url_for('my_form'))
 
     session['webhook'] = url
@@ -47,18 +48,20 @@ def main_page():
     # get_all_chains_from_file
     with open(f"chains.json") as f:
         chains = json.load(f)
-    temp = []
+    mychains = []
     for chainId in chains:
-        temp.append({'chain': chainId})
-    return render_template('main-page.html',  data=temp)
+        mychains.append({'chain': chainId})
+    return render_template('main-page.html',  data=mychains)
 
-@app.route("/test" , methods=['GET', 'POST'])
-def test():
+@app.route("/success" , methods=['GET', 'POST'])
+def success():
     selectedChains = request.form.getlist('chains')
-    update_user(session['webhook'], selectedChains)
-    # ! TODO send webhook to channel?
+    update_user(session['webhook'], selectedChains)    
     sendConfirmation(session['webhook'], selectedChains)
-    return f"You are now registered for: " + str(selectedChains)
+
+    formatedChains = ', '.join(selectedChains)
+    # return f"You are now registered for: " + str(selectedChains)
+    return render_template('success.html',  data=formatedChains)
 
 # @app.route("/reecetesting" , methods=['GET'])
 # def DEBUG_getAllCollectionDocuments() -> Document:
@@ -85,3 +88,7 @@ if __name__ == "__main__":
     
     port = int(os.environ.get('PORT', 8080))
     app.run(debug=True, host='0.0.0.0', port=port)
+
+    # production WSGI server for when going live.
+    # from waitress import serve
+    # serve(app, host="0.0.0.0", port=port)

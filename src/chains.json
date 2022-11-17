@@ -1,4 +1,9 @@
 {
+    "cosmos": [
+        "https://forum.cosmos.network/c/hub-proposals/25.json",
+        "https://forum.cosmos.network/t/{ID}",
+        "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/atom.png"
+    ],
     "juno": [
         "https://commonwealth.im/api/bulkThreads?chain=juno&cutoff_date={ENCODED_UTC_TIME}&topic_id=853",
         "https://commonwealth.im/juno/discussion/{ID}",
@@ -8,6 +13,11 @@
         "https://gov.osmosis.zone/api/bulkThreads?chain=osmosis&cutoff_date={ENCODED_UTC_TIME}&topic_id=679",
         "https://gov.osmosis.zone/discussion/{ID}",
         "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/osmo.png"
+    ],
+    "akash": [
+        "https://forum.akash.network/c/proposal/5.json",
+        "https://forum.akash.network/t/{ID}",
+        "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/akt.png"
     ],
     "dig-chain": [
         "https://commonwealth.im/api/bulkThreads?chain=dig-chain&cutoff_date={ENCODED_UTC_TIME}",
@@ -23,6 +33,11 @@
         "https://commonwealth.im/api/bulkThreads?chain=umee&cutoff_date={ENCODED_UTC_TIME}&topic_id=926",
         "https://commonwealth.im/umee/discussion/{ID}",
         "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/umee.png"
+    ],
+    "regen": [
+        "https://commonwealth.im/api/bulkThreads?chain=regen&cutoff_date={ENCODED_UTC_TIME}",
+        "https://commonwealth.im/regen/discussion/{ID}",
+        "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/regen.png"
     ],
     "chihuahua": [
         "https://commonwealth.im/api/bulkThreads?chain=chihuahua&cutoff_date={ENCODED_UTC_TIME}&topic_id=1128",

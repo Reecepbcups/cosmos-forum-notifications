@@ -1,0 +1,77 @@
+<head>
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main-page.css') }}"> -->
+</head>
+
+<br>
+<!-- https://codepen.io/warrendunlop/pen/YmVKzm -->
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/select_chains.css') }}">
+</head>
+<style>
+    body {
+        text-align: center;
+        padding: 40px 0;
+        background: #222222;
+    }
+
+    h1 {
+        color: #88B04B;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #404F5E;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-size: 20px;
+        margin: 0;
+    }
+
+    i {
+        color: #9ABC66;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left: -15px;
+    }
+
+    .card {
+        background: #C9D1D9;
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+    }
+</style>
+
+<body>
+    <div class="card">
+        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+            <i class="checkmark">✓</i>
+        </div>
+        <h1>Success</h1>
+        <p>You will start receiving notifications for:<br />{{ data }} </p>
+    </div>
+
+    <br>
+
+    <center style="position: relative;">
+        <form action="https://github.com/stars/Reecepbcups/lists/my-cosmos-projects">
+            <input type="submit" value="Other Projects" class="btn btn-default fancy_button_to_home">
+        </form>
+        <form action="https://twitter.com/CosmosGovNotifs">
+            <input type="submit" value="Twitter Notifs" class="btn btn-default fancy_button_to_home">
+        </form>
+        <form action="{{ url_for('my_form') }}">
+            <input type="submit" value="Back to home" class="btn btn-default fancy_button_to_home">
+        </form>
+    </center>
+</body>
+
+
+</html>

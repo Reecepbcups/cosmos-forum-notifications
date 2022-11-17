@@ -1,28 +1,33 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/select_chains.css') }}">
+</head>
+
+<br>
+<center>
 <h1>Select chains you want notifications for!</h1>
+</center>
 
-<!-- <form class="form-inline" method="POST" action="{{ url_for('test') }}">
-    <div class="form-group">
-      <div class="input-group">
-          <span class="input-group-addon">Please select</span>
-              <select name="comp_select" class="selectpicker form-control">
-                {% for o in data %}
-                <option value="{{ o.name }}">{{ o.name }}</option>
-                {% endfor %}
-              </select>
-      </div>
-      <button type="submit" class="btn btn-default">Go</button>
-    </div>
-  </form> -->
-
-  <!-- If user has already enabled them, show it as enabled -->
-<form class="form-inline" method="POST" action="{{ url_for('test') }}">
-    <!-- <input type=checkbox name=people value='Joe'> Joe <br/>
+<!-- If user has already enabled them, show it as enabled in the future-->
+<form class="form-inline" method="POST" action="{{ url_for('success') }}">
+  <!-- <input type=checkbox name=people value='Joe'> Joe <br/>
     <input type=checkbox name=people value='Betty'>Betty<br/> -->
 
-        {% for o in data %}
+  <!-- Bare bones working mimnimum. It returns the list of name="chains" values back to the 'test' function -->
+  <!-- {% for o in data %}
             <input type=checkbox name="chains" value="{{ o.chain }}">{{ o.chain }}<br/>
-        {% endfor %}
+        {% endfor %} -->
+
+  <center>
+
+    {% for o in data %}    
+      <input class="checkbox" value="{{ o.chain }}" id="{{ o.chain }}" type="checkbox" name="chains" />
+      <label for="{{ o.chain }}"><span class="check">✓</span>{{ o.chain }}</label>
+    {% endfor %}
 
     <!-- <button type="submit" value="Save" class="btn btn-default">Save</button> -->
-    <input type="submit" class="btn btn-default">
+    <br>
+    <input type="submit" class="btn btn-default fancy_button">
+
+  </center>
+
 </form>

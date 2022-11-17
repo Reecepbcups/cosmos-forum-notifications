@@ -10,7 +10,7 @@ services:
       - "RUNNABLE_CHECK_EVERY=60"
       - "MONGODB=mongodb://USER:PASSWORD@HOST:PORT/?authSource=admin"
       - "DATABASE=commonwealth_proposals"
-      - "COLLECTION=t3"      
+      - "COLLECTION=t3"
     expose:
       - port: 8080 # just a placeholder
         to:
